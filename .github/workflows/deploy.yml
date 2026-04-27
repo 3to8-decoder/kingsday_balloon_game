@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
-          include: index.html,game.wasm,wasm_exec.js
+          include: index.html,game.wasm,wasm_exec.js,CNAME
 
   deploy:
     needs: build
