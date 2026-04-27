@@ -40,11 +40,11 @@ type Balloon struct {
 }
 
 type Particle struct {
-	x, y    float64
-	vx, vy  float64
-	life    float64
-	color   color.RGBA
-	radius  float64
+	x, y   float64
+	vx, vy float64
+	life   float64
+	color  color.RGBA
+	radius float64
 }
 
 type Game struct {
@@ -59,7 +59,6 @@ type Game struct {
 	spawnTimer float64
 	rng        *rand.Rand
 	popTexts   []PopText
-	overlay    *ebiten.Image
 }
 
 type PopText struct {
@@ -70,13 +69,10 @@ type PopText struct {
 }
 
 func NewGame() *Game {
-	overlay := ebiten.NewImage(screenWidth, screenHeight)
-	overlay.Fill(color.RGBA{0, 0, 0, 180})
 	return &Game{
-		state:   "menu",
-		rng:     rand.New(rand.NewSource(time.Now().UnixNano())),
+		state:    "menu",
+		rng:      rand.New(rand.NewSource(time.Now().UnixNano())),
 		timeLeft: gameTime,
-		overlay: overlay,
 	}
 }
 
@@ -331,7 +327,9 @@ func (g *Game) drawGame(screen *ebiten.Image) {
 }
 
 func (g *Game) drawGameOver(screen *ebiten.Image) {
-	screen.DrawImage(g.overlay, &ebiten.DrawImageOptions{})
+	overlay := ebiten.NewImage(screenWidth, screenHeight)
+	overlay.Fill(color.RGBA{0, 0, 0, 180})
+	screen.DrawImage(overlay, &ebiten.DrawImageOptions{})
 
 	ebitenutil.DebugPrintAt(screen, "TIME'S UP!", screenWidth/2-40, 140)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Score: %d", g.score), screenWidth/2-40, 200)
