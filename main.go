@@ -9,8 +9,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
-)
+	"github.com/hajimehoshi/ebiten/v2/inpututil")
 
 const (
 	screenWidth  = 640
@@ -120,16 +119,32 @@ func (g *Game) startGame() {
 	g.spawnTimer = 0
 }
 
+func justTapped() bool {
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		return true
+	}
+	touchIDs := inpututil.AppendJustPressedTouchIDs(nil)
+	return len(touchIDs) > 0
+}
+
+func tapPosition() (int, int) {
+	touchIDs := inpututil.AppendJustPressedTouchIDs(nil)
+	if len(touchIDs) > 0 {
+		return ebiten.TouchPosition(touchIDs[0])
+	}
+	return ebiten.CursorPosition()
+}
+
 func (g *Game) Update() error {
 	switch g.state {
 	case "menu":
-		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		if justTapped() {
 			g.startGame()
 		}
 		return nil
 
 	case "gameover":
-		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		if justTapped() {
 			g.state = "menu"
 		}
 		return nil
@@ -181,9 +196,9 @@ func (g *Game) Update() error {
 	// remove dead
 	g.balloons = filterBalloons(g.balloons)
 
-	// click to pop
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
-		mx, my := ebiten.CursorPosition()
+	// click/tap to pop
+	if justTapped() {
+		mx, my := tapPosition()
 		// check from top (last drawn) to bottom
 		for i := len(g.balloons) - 1; i >= 0; i-- {
 			b := &g.balloons[i]
