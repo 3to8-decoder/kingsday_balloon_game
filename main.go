@@ -359,8 +359,12 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
+	restore := suppressMetalStartupNoise()
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("King's Day Balloon Pop 🧡")
+	// Metal init happens inside RunGame on first frame;
+	// restore stderr after a brief delay so the startup noise is swallowed
+	time.AfterFunc(500*time.Millisecond, restore)
 	if err := ebiten.RunGame(NewGame()); err != nil {
 		panic(err)
 	}
