@@ -30,6 +30,13 @@ jobs:
       - name: Copy wasm_exec.js from toolchain
         run: cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" wasm_exec.js
 
+      - name: Cache-bust with file checksums
+        run: |
+          WASM_SHA=$(sha256sum game.wasm | cut -c1-7)
+          EXEC_SHA=$(sha256sum wasm_exec.js | cut -c1-7)
+          sed -i "s/{{CACHE_BUST_WASM}}/${WASM_SHA}/g" index.html
+          sed -i "s/{{CACHE_BUST_EXEC}}/${EXEC_SHA}/g" index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

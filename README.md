@@ -4,6 +4,8 @@ A King's Day balloon pop game built with [Ebitengine](https://ebitengine.org/).
 
 Pop balloons before they float away! Build combos for multiplied points. 60 seconds on the clock.
 
+**▶️ Play now:** [https://3to8-decoder.github.io/kingsday_balloon_game/](https://3to8-decoder.github.io/kingsday_balloon_game/)
+
 ## Quick Start
 
 ```bash
@@ -44,13 +46,13 @@ Deploying to the web requires 3 files:
 | `wasm_exec.js` | ~17KB | Go WASM runtime |
 | `game.wasm` | ~12MB raw / ~3MB gzipped | Game code |
 
-Any static host works — GitHub Pages, Netlify, Vercel, Cloudflare Pages.
+Any static host works — GitHub Pages, itch.io, Netlify, Vercel, Cloudflare Pages.
 
-### Caching
+### CI/CD (GitHub Pages)
 
-- `game.wasm` should be served with `Cache-Control: public, max-age=31536000, immutable`
-- On new releases, change the filename (e.g. `game-<hash>.wasm`) or add a query param (`game.wasm?v=2`) to bust the cache
-- Most static hosts auto-gzip, so users only download ~3MB
+Push to `main` → GitHub Actions builds WASM → deploys to Pages automatically.
+
+Cache busting: the build injects the git short SHA as a query param on `game.wasm` and `wasm_exec.js`, so every deploy busts the browser cache.
 
 ### Local test
 
@@ -61,5 +63,5 @@ just serve
 
 ## Controls
 
-- **Click** balloons to pop them
-- **Space** to start / continue
+- **Click / Tap** balloons to pop them
+- **Space** to start / continue (desktop)

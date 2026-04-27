@@ -23,10 +23,10 @@
   </style>
 </head>
 <body>
-  <script src="wasm_exec.js"></script>
+  <script src="wasm_exec.js?v={{CACHE_BUST_EXEC}}"></script>
   <script>
     const go = new Go();
-    WebAssembly.instantiateStreaming(fetch("game.wasm"), go.importObject).then(result => {
+    WebAssembly.instantiateStreaming(fetch("game.wasm?v={{CACHE_BUST_WASM}}"), go.importObject).then(result => {
       go.run(result.instance);
     }).catch(err => {
       document.body.innerText = "Failed to load: " + err;
