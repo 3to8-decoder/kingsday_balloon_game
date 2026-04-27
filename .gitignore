@@ -1,0 +1,16 @@
+# Binaries
+kingsday_game
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# OS
+.DS_Store
+
+logs/*
