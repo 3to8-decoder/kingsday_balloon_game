@@ -1,16 +1,12 @@
-# Binaries
+# Binary
 kingsday_game
-
-# Go
 *.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
 
-# OS
+# WASM build output
+game.wasm
+
+# macOS
 .DS_Store
 
-logs/*
+# Logs
+logs/

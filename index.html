@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>King's Day Balloon Pop 🧡</title>
+  <style>
+    body {
+      margin: 0;
+      background: #101030;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    canvas {
+      image-rendering: pixelated;
+      cursor: pointer;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <script src="wasm_exec.js"></script>
+  <script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch("game.wasm"), go.importObject).then(result => {
+      go.run(result.instance);
+    }).catch(err => {
+      document.body.innerText = "Failed to load: " + err;
+    });
+  </script>
+</body>
+</html>
