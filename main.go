@@ -9,12 +9,13 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/hajimehoshi/ebiten/v2/inpututil")
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
+)
 
 const (
 	screenWidth  = 640
 	screenHeight = 480
-	gameTime     = 60 // seconds
+	gameTime     = 10 // seconds
 )
 
 var (
@@ -94,7 +95,7 @@ func (g *Game) spawnBalloon() {
 func (g *Game) spawnPop(x, y float64, c color.RGBA) {
 	for i := 0; i < 12; i++ {
 		angle := g.rng.Float64() * math.Pi * 2
-		speed := 60 + g.rng.Float64()*120
+		speed := 90 + g.rng.Float64()*120
 		g.particles = append(g.particles, Particle{
 			x:      x,
 			y:      y,
