@@ -59,6 +59,7 @@ type Game struct {
 	spawnTimer float64
 	rng        *rand.Rand
 	popTexts   []PopText
+	sound      *SoundPlayer
 }
 
 type PopText struct {
@@ -73,6 +74,7 @@ func NewGame() *Game {
 		state:    "menu",
 		rng:      rand.New(rand.NewSource(time.Now().UnixNano())),
 		timeLeft: gameTime,
+		sound:    NewSoundPlayer(),
 	}
 }
 
@@ -144,6 +146,7 @@ func (g *Game) Update() error {
 			g.highScore = g.score
 		}
 		g.state = "gameover"
+		g.sound.PlayGameOver()
 		return nil
 	}
 
@@ -193,6 +196,12 @@ func (g *Game) Update() error {
 				points := g.combo
 				g.score += points
 				g.spawnPop(b.x, b.y, b.color)
+				// sound
+				if g.combo >= 3 {
+					g.sound.PlayCombo()
+				} else {
+					g.sound.PlayPop()
+				}
 				// pop text
 				txt := fmt.Sprintf("+%d", points)
 				if g.combo >= 5 {
